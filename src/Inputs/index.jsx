@@ -25,22 +25,13 @@ export function Inputs(props){
   const[inputErr, setInputErr] = useState(false)
 
   const[result, setResult] = useState(false)
-  // const[filtered, setFiltered] = useState({})
+  const[filtered, setFiltered] = useState({})
 
 
   const {typeIn, setTypeIn} = useButtonIn('')
   const {typeYi, setTypeYi} = useButtonYi('')
 
  
-  function validate() {
-    if(!validateInput.test(monthAport)){
-      setInputErr(true)
-      console.log(inputErr)
-    }else{
-      console.log(inputErr)
-      setInputErr(false)
-    }
-  }
 
   function clearInputs (){
     setAport('')
@@ -71,27 +62,16 @@ export function Inputs(props){
   },[typeIn, typeYi])
 
 
-  const findObject = ()=>{
-    let filtered = simulate.filter(item =>
-      item.tipoIndexacao == typeIn && item.tipoRendimento == typeYi )
-
-      return filtered
-  }
-
   function callObject(){
     if(validateInput.test(monthAport)){
       setInputErr(false)
       setResult(true)
       setFiltered(simulate.filter(item =>
         item.tipoIndexacao == typeIn && item.tipoRendimento == typeYi ))
-
-    
     }else{
       setInputErr(true)
       }
   }
-
-  const resultado = callObject()
 
   return(
     <>
@@ -213,8 +193,68 @@ export function Inputs(props){
         <div>
               <Card>
                 <h6>Valor final Bruto</h6>
+                {filtered.map((item ) => 
+                  <p>
+                  R$ {item.valorFinalBruto.toLocaleString('pt-BR')}
+                </p>
+                )}
                 
-                <p>{resultado.valorFinalBruto}</p>
+            
+              </Card>
+            </div>
+
+            <div>
+              <Card>
+                <h6>Alíquota do IR</h6>
+                {filtered.map(item =>
+                <p>
+                  {item.aliquotaIR} %
+                </p>
+                )}
+              </Card>
+            </div>
+
+            <div>
+              <Card>
+                <h6>Valor pago em IR</h6>
+                {filtered.map(item =>
+                <p>
+                  R$ {item.valorPagoIR.toLocaleString('pt-BR')}
+                </p>
+                )}
+              </Card>
+            </div>
+
+            <div>
+              <Card>
+                <h6>Valor final líquido</h6>
+                {filtered.map(item =>
+                <p style={{color:'green'}}>
+                  R$ {item.valorFinalLiquido.toLocaleString('pt-BR')}
+                </p>
+                )}
+              </Card>
+            </div>
+
+            <div>
+              <Card>
+                <h6>Valor total investido</h6>
+                {filtered.map(item =>
+                <p>
+                  R$ {item.valorTotalInvestido.toLocaleString('pt-BR')}
+                </p>
+                )}
+              </Card>
+            </div>
+
+            <div>
+              <Card>
+                <h6>Valor final líquido</h6>
+                {filtered.map(item =>
+                <p style={{color:'green'}}>
+                  R$ {item.valorFinalLiquido.toLocaleString('pt-BR')}
+                </p>
+                )}
               </Card>
             </div>
         </WrapperResult>
